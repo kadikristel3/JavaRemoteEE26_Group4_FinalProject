@@ -10,9 +10,9 @@ import java.sql.SQLException;
 public class Main {
 
     public static void main(String[] args) {
-        String dbURL = "jdbc:mysql://localhost:3306/events";
+        String dbURL = "jdbc:mysql://localhost:3306/event_handler";
         String username = "root";
-        String password = "Kapsas123";
+        String password = "Nurme7";
         Scanner scanner = new Scanner(System.in);
         char again = 'y';
 
