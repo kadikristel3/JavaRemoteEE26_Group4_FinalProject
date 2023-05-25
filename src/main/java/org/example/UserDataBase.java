@@ -5,9 +5,9 @@ import java.util.Scanner;
 
 public class UserDataBase {
     public static void main(String[] args) {
-        String dbURL = "jdbc:mysql://localhost:3306/event_handler";
+        String dbURL = "jdbc:mysql://localhost:3306/events";
         String username = "root";
-        String password = "Nurme7";
+        String password = "Kapsas123";
         Scanner scanner = new Scanner(System.in);
         char again = 'y';
 
