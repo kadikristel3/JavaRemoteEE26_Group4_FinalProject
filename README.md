@@ -20,4 +20,5 @@ We also have a user database, where to create, read and delete users.
 
 
 
+![halftone-icon-sql-file-format-style-black-white-monochrome-vector-illustration-195044720](https://github.com/kadikristel3/JavaRemoteEE26_Group4_FinalProject/assets/125499492/e07ea4cb-7718-495c-abc4-09b6484c1acf)
 
