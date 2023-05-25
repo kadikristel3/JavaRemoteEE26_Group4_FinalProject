@@ -20,4 +20,4 @@ We also have a user database, where to create, read and delete users.
 
 
 
-![imgbin-microsoft-sql-server-computer-icons-database-server-sql-logo-1JT9pRmqwTW65WvxFa6DgYh2Q](https://github.com/kadikristel3/JavaRemoteEE26_Group4_FinalProject/assets/125499492/9ddf0c02-4e5e-45ac-ab4e-f9cc4e80e91e)
+![table](https://github.com/kadikristel3/JavaRemoteEE26_Group4_FinalProject/assets/125499492/442286f5-6948-4227-8486-ac9a688b6b42)
