@@ -9,18 +9,10 @@ import java.sql.SQLException;
 
 public class Main {
 
-//    static public int currentUserId = 0;
-//    static String topic;
-//    static char again = 'y';
-
-
-    //DataBase Class
-//    static Database dataBase = new Database();
-//    static Scanner scanner = new Scanner(System.in);
     public static void main(String[] args) {
-        String dbURL = "jdbc:mysql://localhost:3306/event_handler";
+        String dbURL = "jdbc:mysql://localhost:3306/events";
         String username = "root";
-        String password = "Nurme7";
+        String password = "Kapsas123";
         Scanner scanner = new Scanner(System.in);
         char again = 'y';
 
@@ -28,8 +20,7 @@ public class Main {
 
             System.out.println("Connected to database!");
             while (again == 'y') {
-                System.out.println("Choose an option (i,a,s,l,g,p,t,r,d)");
-                System.out.println("i - add event");
+                System.out.println("Choose an option (a,s,l,g,p,t,r,d)");
                 System.out.println("a - add event (User access only!)");
                 System.out.println("s - search by date (yyyy-mm-dd)");
                 System.out.println("l - search by location (Tallinn, Tartu, Else)");
@@ -39,27 +30,7 @@ public class Main {
                 System.out.println("r - get all events");
                 System.out.println("d - delete event (User access only)");
                 char action = scanner.nextLine().charAt(0);
-                if (action == 'i') {
-                    System.out.println("Enter date of the event (yyyy-mm-dd)");
-                    String newEventDate = scanner.nextLine();
-
-                    System.out.println("Enter name of the event");
-                    String newEventName = scanner.nextLine();
-
-                    System.out.println("Enter location of the event (Tallinn, Tartu, Else)");
-                    String newLocation = scanner.nextLine();
-
-                    System.out.println("Enter genre of the event (Concert, Theater, Cinema, Else)");
-                    String newGenre = scanner.nextLine();
-
-                    System.out.println("Enter ticket price for the event");
-                    String newTicket = scanner.nextLine();
-
-                    System.out.println("Enter type of the event (Adult, Family, Children)");
-                    String newTypeOfEvent = scanner.nextLine();
-
-                    insertData(conn, newEventDate, newEventName, newLocation, newGenre, newTicket, newTypeOfEvent);
-                } else if (action == 'a') {
+                if (action == 'a') {
                     System.out.println("Add the event");
 
                     System.out.println("Username: ");
@@ -71,15 +42,15 @@ public class Main {
                     if (authenticateUser(conn, usernameInput, passwordInput)) {
                         System.out.println("Event name: ");
                         String eventname = scanner.nextLine();
-                        System.out.println("Event date: ");
+                        System.out.println("Event date (yyyy-mm-dd) : ");
                         String eventdate = scanner.nextLine();
-                        System.out.println("Location: ");
+                        System.out.println("Location (Tallinn, Tartu, Else) : ");
                         String location = scanner.nextLine();
-                        System.out.println("Genre: ");
+                        System.out.println("Genre (Concert, Theater, Cinema, Else) : ");
                         String genre = scanner.nextLine();
                         System.out.println("Ticket price: ");
                         String ticket = scanner.nextLine();
-                        System.out.println("Type of event: ");
+                        System.out.println("Type of event (Adult, Family, Children) : ");
                         String typeofevent = scanner.nextLine();
 
                         addEvent(conn, usernameInput, passwordInput, eventname, eventdate, location, genre, ticket, typeofevent);
@@ -99,8 +70,9 @@ public class Main {
                     String searchGenre = scanner.nextLine();
                     searchDataByGenre(conn, searchGenre);
                 } else if (action == 'p') {
-                    System.out.println("Enter the price range");
+                    System.out.println("Enter the min price: ");
                     double minPrice = scanner.nextDouble();
+                    System.out.println("Enter the max price: ");
                     double maxPrice = scanner.nextDouble();
                     searchDataByPrice(conn, minPrice, maxPrice);
                 } else if (action == 't') {
@@ -111,16 +83,13 @@ public class Main {
                     readData(conn);
                 } else if (action == 'd') {
                     System.out.println("Delete the event");
-
                     System.out.println("Username: ");
                     String usernameInput = scanner.nextLine();
                     System.out.println("Password: ");
                     String passwordInput = scanner.nextLine();
-
                     if (authenticateUser(conn, usernameInput, passwordInput)) {
                         System.out.println("Eventname: ");
                         String eventname = scanner.nextLine();
-
                         deleteData(conn, usernameInput, passwordInput, eventname);
                     } else {
                         System.out.println("Eventname not found. Nothing to delete.");
@@ -270,51 +239,6 @@ public class Main {
         }
     }
 
-    private static void insertData(Connection conn, String eventdate, String eventname, String location, String genre, String ticket, String typeofevent)
-            throws SQLException {
-
-        String sql = "INSERT INTO events (eventdate, eventname, location, genre, ticket, typeofevent) VALUES (?,?,?,?,?,?)";
-        PreparedStatement statement = conn.prepareStatement(sql);
-        statement.setString(1, eventdate);
-        statement.setString(2, eventname);
-        statement.setString(3, location);
-        statement.setString(4, genre);
-        statement.setString(5, ticket);
-        statement.setString(6, typeofevent);
-
-        int rowInserted = statement.executeUpdate();
-
-        if (rowInserted >= 1) {
-            System.out.println("A new event date is added");
-        } else if (rowInserted >= 2) {
-            System.out.println("A new event name is added");
-        } else if (rowInserted >= 3) {
-            System.out.println("A new location is added");
-        } else if (rowInserted >= 4) {
-            System.out.println("A new genre is added");
-        } else if (rowInserted >= 5) {
-            System.out.println("A new ticket price is added");
-        } else if (rowInserted >= 6) {
-            System.out.println("A new type of event is added");
-        } else {
-            System.out.println("Invalid input!");
-        }
-    }
-
-    private static void deleteData(Connection conn, String username, String password, String eventname) throws SQLException {
-        if (authenticateUser(conn, username, password)) {
-            String sql = "DELETE FROM events WHERE eventname = ?";
-            PreparedStatement statement = conn.prepareStatement(sql);
-            statement.setString(1, eventname);
-
-            if (statement.executeUpdate() > 0) {
-                System.out.println("Event was deleted successfully");
-            } else {
-                System.out.println("Something went wrong");
-            }
-        }
-    }
-
     private static void addEvent(Connection conn, String username, String password, String eventname, String eventdate, String location, String genre, String ticket, String typeofevent) throws SQLException {
         if (authenticateUser(conn, username, password)) {
             String sql = "INSERT INTO events (eventname, eventdate, location, genre, ticket, typeofevent) "
@@ -336,6 +260,18 @@ public class Main {
             }
         }
     }
+    private static void deleteData(Connection conn, String username, String password, String eventname) throws SQLException {
+        if (authenticateUser(conn, username, password)) {
+            String sql = "DELETE FROM events WHERE eventname = ?";
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, eventname);
+            if (statement.executeUpdate() > 0) {
+                System.out.println("Event was deleted successfully");
+            } else {
+                System.out.println("Something went wrong");
+            }
+        }
+    }
 
     private static boolean authenticateUser(Connection conn, String username, String password) throws SQLException {
         String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
@@ -348,4 +284,3 @@ public class Main {
         return resultSet.next();
     }
 }
-
